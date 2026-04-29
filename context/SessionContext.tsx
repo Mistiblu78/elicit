@@ -2,19 +2,33 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react'
 
-interface GeneratedDocument {
+export interface SignatureBlock {
+  firm: string
+  address: string
+  city_state_zip: string
+  phone: string
+  fax: string
+  attorney: string
+  party_represented: string
+  bar_no: string
+  email: string
+}
+
+export interface Certificate {
+  text: string
+  attorney: string
+}
+
+export interface GeneratedDocument {
   type: string
-  caption: string
-  title: string
-  to_line: string
-  cover: string
-  definitions: Array<{ term: string; definition: string }>
-  requests: Array<{ section: string; items: Array<{ number: number; text: string }> }>
-  signature_block: string
-  certificate: string
-  review_notice: string
-  interrogatory_count: number | null
-  over_limit: boolean
+  // Disclosure only returns {type}; all other fields are optional to handle that case
+  title?: string
+  requests?: Array<{ section: string; items: Array<{ number: number; text: string }> }>
+  signature_block?: SignatureBlock
+  certificate?: Certificate
+  review_notice?: string
+  interrogatory_count?: number | null
+  over_limit?: boolean
 }
 
 interface SessionState {

@@ -163,62 +163,71 @@ Requests must be specific enough to compel real evidence and narrow enough to su
 
 ## Output Format
 
-Return a JSON array — one object per request type selected. Every object must match this schema exactly. Use placeholder strings throughout — never real names or identifying information.
+Return a JSON array — one object per request type selected. Every object must match the schema below exactly. Use placeholder strings throughout in all text fields — never real names or identifying information.
+
+All boilerplate (cover paragraphs, definitions sections, instructions, production requirements) is hardcoded in the application and inserted automatically. You return only the variable content: the document title, the targeted discovery requests, the signature block placeholders, and the review notice.
+
+### Interrogatories
 
 ```json
-[
-  {
-    "type": "interrogatories | rfp | rfa | disclosure",
-    "caption": "IN THE [COURT] COURT\n[COUNTY] COUNTY, TEXAS\n\nIn the Matter of the Marriage of    §\n[PETITIONER]    §    Cause No. [CAUSE NO.]\nand    §\n[RESPONDENT]    §",
-    "title": "[PETITIONER]'S WRITTEN INTERROGATORIES TO [RESPONDENT]",
-    "to_line": "To: [RESPONDENT], by and through [OPPOSING PRONOUN] attorney of record, [OPPOSING COUNSEL].",
-    "cover": "Full cover paragraph text using exact TRCP language, response deadline, oath requirement if applicable.",
-    "definitions": [
-      {"term": "Document", "definition": "Each tangible thing..."},
-      {"term": "Identity and location", "definition": "The person's name and present or last known address..."}
-    ],
-    "requests": [
-      {
-        "section": "Conservatorship and possession",
-        "items": [
-          {"number": 1, "text": "If you contend that it is in the best interest of [CHILD]..."},
-          {"number": 2, "text": "If since [DATE] any unrelated adult..."}
-        ]
-      },
-      {
-        "section": "Controlled substances",
-        "items": [
-          {"number": 3, "text": "If since [DATE] you have taken or used any controlled substance..."}
-        ]
-      }
-    ],
-    "signature_block": {
-      "firm": "[FIRM]",
-      "address": "[FIRM ADDRESS]",
-      "city_state_zip": "[FIRM CITY STATE ZIP]",
-      "phone": "[PHONE]",
-      "fax": "[FAX]",
-      "attorney": "[ATTORNEY]",
-      "party_represented": "[PARTY REPRESENTED]",
-      "bar_no": "[BAR NO.]",
-      "email": "[EMAIL]"
+{
+  "type": "interrogatories",
+  "title": "[PETITIONER]'S FIRST WRITTEN INTERROGATORIES TO [RESPONDENT]",
+  "requests": [
+    {
+      "section": "Conservatorship and Possession",
+      "items": [
+        { "number": 1, "text": "If you contend that it is in the best interest of [CHILD]..." },
+        { "number": 2, "text": "If since [DATE] any unrelated adult..." }
+      ]
     },
-    "certificate": {
-      "text": "I certify that a true and correct copy of the foregoing was served on [OPPOSING COUNSEL], attorney of record for [RESPONDENT], via [METHOD OF SERVICE] on [DATE].",
-      "attorney": "[ATTORNEY]"
-    },
-    "review_notice": "This document was drafted using AI-assisted technology. Before serving, the reviewing attorney must: (1) verify all requests are accurate and appropriate for this matter; (2) confirm interrogatory count does not exceed the applicable discovery level limit; (3) confirm this document supports the client's interests and strategy; and (4) confirm proper service on opposing counsel. Elicit supports compliance with TRAIGA, Texas Ethics Opinion 705, and ABA Formal Opinion 512. No client data is stored or used to train AI models. All inputs and outputs are session-only.",
-    "interrogatory_count": 12,
-    "over_limit": false
-  }
-]
+    {
+      "section": "Controlled Substances",
+      "items": [
+        { "number": 3, "text": "If since [DATE] you have taken or used any controlled substance..." }
+      ]
+    }
+  ],
+  "signature_block": {
+    "firm": "[FIRM]",
+    "address": "[FIRM ADDRESS]",
+    "city_state_zip": "[FIRM CITY STATE ZIP]",
+    "phone": "[PHONE]",
+    "fax": "[FAX]",
+    "attorney": "[ATTORNEY]",
+    "party_represented": "[PARTY REPRESENTED]",
+    "bar_no": "[BAR NO.]",
+    "email": "[EMAIL]"
+  },
+  "certificate": {
+    "text": "I certify that a true and correct copy of the foregoing [PETITIONER]'s Written Interrogatories to [RESPONDENT] was served on [OPPOSING COUNSEL], attorney of record for [RESPONDENT], via [METHOD OF SERVICE] on [DATE].",
+    "attorney": "[ATTORNEY]"
+  },
+  "review_notice": "This document was drafted using AI-assisted technology. Before serving, the reviewing attorney must: (1) verify all requests are accurate and appropriate for this matter; (2) confirm interrogatory count does not exceed the applicable discovery level limit; (3) confirm this document supports the client's interests and strategy; and (4) confirm proper service on opposing counsel. Elicit supports compliance with TRAIGA, Texas Ethics Opinion 705, and ABA Formal Opinion 512. No client data is stored or used to train AI models. All inputs and outputs are session-only.",
+  "interrogatory_count": 22,
+  "over_limit": false
+}
 ```
 
-**Notes on the schema:**
-- `definitions` — include only for Interrogatories and RFP. Pass an empty array `[]` for RFA and Disclosure.
-- `interrogatory_count` — include only for Interrogatories. Count every discrete subpart. Pass `null` for all other types.
-- `over_limit` — set to `true` if interrogatory_count exceeds 25. Include a note at the start of the cover field flagging the excess and instructing the attorney to review. Pass `false` for all other types.
-- `requests` — for Disclosure, pass a flat array of items with no section grouping: `[{"number": 1, "text": "..."}]`
+### Requests for Production
+
+Same schema as Interrogatories but `"type": "rfp"`. Omit `interrogatory_count` and `over_limit`.
+
+### Requests for Admissions
+
+Same schema as RFP but `"type": "rfa"`. Group requests into sections just as with Interrogatories and RFP.
+
+### Requests for Disclosure
+
+```json
+{ "type": "disclosure" }
+```
+
+The entire Disclosure document is fixed legal boilerplate hardcoded in the application. Return only `{"type": "disclosure"}` — no other fields.
+
+**Schema notes:**
+- `interrogatory_count` — Interrogatories only. Count every discrete subpart. If count exceeds 25 under Level 2, set `over_limit: true` and include an over-limit notice in `review_notice`.
+- `requests` — group by section for all types. Section names are bolded headings in the final document.
 - Return only valid JSON. No prose before or after the array. No markdown code fences.
 
 ---
