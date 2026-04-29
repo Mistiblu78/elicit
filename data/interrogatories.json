@@ -1,0 +1,291 @@
+{
+  "type": "interrogatories",
+  "rule": "TRCP 197",
+  "governing_rules": ["TRCP 190", "TRCP 197"],
+  "limits": {
+    "max_interrogatories": 25,
+    "note": "Each discrete subpart counts as a separate interrogatory. Level 2 default applies to Family Code cases.",
+    "discovery_period_end": "30 days before trial date (Family Code cases)"
+  },
+  "service_deadline": "No later than 30 days before end of discovery period",
+  "response_deadline_days": 30,
+  "response_deadline_defendant_days": 50,
+  "verification_required": true,
+  "verification_note": "Responding party must sign answers under oath before a notary public or other judicial officer per TRCP 191.3(a) and 197.2(d). Exception: answers based on information from other persons may be so noted; answers about persons with knowledge, trial witnesses, and legal contentions do not require oath.",
+  "signature_block": {
+    "required": true,
+    "elements": ["attorney name", "firm name", "address", "phone", "fax", "state bar number", "email", "party represented"]
+  },
+  "certificate_of_service": {
+    "required": true,
+    "elements": ["service date", "method of service", "person served"]
+  },
+  "cover_instruction": "Under rules 190 and 197 of the Texas Rules of Civil Procedure, you are required to answer in complete detail and in writing each of the attached interrogatories; sign your answers to the interrogatories; swear to the truth of your answers before a notary public or other judicial officer as required by rules 191.3(a) and 197.2(d) of the Texas Rules of Civil Procedure; and deliver a complete, signed, and notarized copy of your answers to the undersigned attorney within [30/50] days following service of this request.",
+  "definitions": {
+    "identity_and_location": "The person's name and present or last known address and telephone number. If any of the above information is not available, state any other means of identifying the individual.",
+    "person": "Any natural person or the representative of any entity or entities.",
+    "document": "Each tangible thing, recording, or reproduction of any visual or auditory information, however made, whether handwritten, typewritten, printed, or digital, even if kept in only an electronic format, including papers, books, accounts, diaries, notes, memoranda, journals, calendars, letters and correspondence, emails, text messages, blogs, instant messages, social media postings, logs, drawings, graphs, charts, photographs, electronic or videotape recordings, data, data compilations, and any drafts of the foregoing."
+  },
+  "categories": {
+    "general": {
+      "label": "General / All Cases",
+      "items": [
+        {
+          "number": 1,
+          "text": "State the identity and location of any person who is expected to be called to testify at the trial of this lawsuit."
+        },
+        {
+          "number": 2,
+          "text": "State which of your answers to these interrogatories are based on information obtained from other persons, and state the identity and location of each person from whom you obtained the information and the date the information was obtained."
+        },
+        {
+          "number": 3,
+          "text": "If you, at any time, had possession or control of a document requested in a request for production, and if the document has been lost, has been destroyed, or is not presently in your possession, custody, or control, describe the document, the date of its loss, destruction, purge, or separation from your possession, custody, or control, and the circumstances surrounding its loss, destruction, purge, or separation from your possession, custody, or control."
+        },
+        {
+          "number": 4,
+          "text": "State the identity and location of your employers since [DATE] and the dates you were employed by each."
+        },
+        {
+          "number": 5,
+          "text": "If any person or entity with which you are associated provides you with any fringe benefits, state for each fringe benefit: (a) a description of the fringe benefit, (b) the amount paid monthly and annually by the person or entity for the fringe benefit, and (c) the specific person or entity providing each fringe benefit.",
+          "note": "Fringe benefit includes payment of personal expenses, housing, vacation pay, medical/dental/life/disability insurance, automobile expenses, travel allowances, restricted stock, deferred compensation, 401(k), stock options, retirement/pension benefits, club memberships, company vehicles, professional dues, interest-free loans, legal fees, accounting services, and personal use items."
+        },
+        {
+          "number": 8,
+          "text": "State the identity and location and the age of each person with whom you have resided since [DATE] and the dates on which you resided with each person."
+        },
+        {
+          "number": 9,
+          "text": "State the identity and location of all health-care providers with whom you consulted or by whom you have been treated since [DATE] and the reasons for each consultation or treatment.",
+          "variants": [
+            "State the identity and location of all mental and physical health-care providers with whom you or your child(ren) consulted or by whom you or your child(ren) have been treated since [DATE] and the reasons for each consultation or treatment."
+          ]
+        },
+        {
+          "number": 16,
+          "text": "If you and/or anyone on your behalf has employed or used any private investigator in relation to this proceeding, state: (a) the identity and location of the investigator, (b) the dates of hiring and surveillance, (c) whether any written report has been compiled by the investigator, and (d) the total fees charged."
+        },
+        {
+          "number": 20,
+          "text": "If you intend or may use impeachment evidence at the trial or at any hearing in this suit concerning any person listed by a party as having knowledge of relevant facts or concerning any person listed by a party as a testifying expert, list each such person who may be impeached along with the specific crime and date of such crime allegedly committed by that person and/or identify and describe the impeachment evidence."
+        }
+      ]
+    },
+    "family_violence": {
+      "label": "Family Violence",
+      "tfc_reference": "TFC §71.004 (definition of family violence); TFC §153.004 (history of domestic violence)",
+      "items": [
+        {
+          "number": 10,
+          "text": "If you allege that your spouse has committed an act of family violence (as 'family violence' is defined in section 71.004 of the Texas Family Code), for each act of family violence identify facts of which you are specifically aware that establish, demonstrate, or prove your allegation, including: (a) a description of the alleged act of family violence, (b) the date the alleged act of family violence occurred, and (c) a description of the treatment sought or received, if any, for the act of family violence."
+        },
+        {
+          "number": 11,
+          "text": "If it has been alleged that you have committed an act of family violence (as 'family violence' is defined in section 71.004 of the Texas Family Code), for each act of family violence: (a) describe the act of family violence, (b) state the date the act of family violence occurred, and (c) describe why the act of family violence occurred."
+        }
+      ]
+    },
+    "conduct": {
+      "label": "Conduct / Fault",
+      "items": [
+        {
+          "number": 12,
+          "text": "If you have engaged in intimate sexual contact (including sexual intercourse, oral sex, fondling, or other sexual stimulation) with anyone other than your spouse during this marriage, state: (a) the identity and location of each person with whom you have had such contact and (b) the dates, times of day, and locations of each occurrence of intimate sexual contact."
+        },
+        {
+          "number": 13,
+          "text": "If you allege that your spouse has engaged in intimate sexual contact (including sexual intercourse, oral sex, fondling, or other sexual stimulation) with anyone other than you during this marriage, identify facts of which you are specifically aware that establish, demonstrate, or prove your allegation, including: (a) the identity and location of each person and (b) the dates, times of day, and locations of each alleged occurrence."
+        },
+        {
+          "number": 14,
+          "text": "If since [DATE] you have taken or used any controlled substance for which you did not have a valid prescription, state for each use: (a) the controlled substance used and (b) the date you used the controlled substance."
+        },
+        {
+          "number": 15,
+          "text": "If you allege that since [DATE] your spouse has taken or used any controlled substance for which your spouse did not have a valid prescription, for each use identify facts of which you are specifically aware that establish, demonstrate, or prove your allegation, including: (a) the controlled substance used and (b) the date your spouse used the controlled substance."
+        }
+      ]
+    },
+    "property_and_finances": {
+      "label": "Property and Finances",
+      "tfc_reference": "TFC §3.402 (reimbursement); TFC §8.051 (spousal maintenance)",
+      "items": [
+        {
+          "number": 21,
+          "text": "For each item of property (tangible or intangible) owned by the community estate or the separate estate of either party, state: (a) a description of the property, (b) the percentage that each estate owns the property, (c) the value of the property, (d) in general the legal theories that support your contentions about the value of the property and the facts that establish those contentions, and (e) the legal theories that support your contentions about the character of the property you claim belongs to your separate estate and the facts that establish those contentions."
+        },
+        {
+          "number": 22,
+          "text": "For each sum of money owed by either party to any person or entity, state: (a) a description of the debt including the identity and location of the creditor(s), (b) the percentage that each estate is liable for the debt, (c) the current balance, (d) the balance on the date of marriage, (e) a description of each item of property that secures the debt, (f) the purpose(s) for which the debt was incurred, and (g) the legal theories and factual bases that support your contention about liability for the debt."
+        },
+        {
+          "number": 23,
+          "text": "If you have had any interest in any trust during the term of your marriage, for each trust state: (a) the identity and location of the trust and trustee(s) and (b) the identity and location of the entity or institution in which the trust is or was held."
+        },
+        {
+          "number": 24,
+          "text": "If you have made any gifts or transfers of funds, money, property, or property rights in excess of a value of $[AMOUNT] to any person since [DATE], for each such gift or transfer state: (a) the identity and location of each person, (b) the date and nature of the gift or transfer, and (c) the value of the gift or item transferred."
+        },
+        {
+          "number": 25,
+          "text": "If you propose that you be awarded more than 50 percent of the community estate, state in general the legal theories that support your proposal and identify facts of which you are specifically aware that establish, demonstrate, or prove that proposal."
+        },
+        {
+          "number": 26,
+          "text": "State each item of property that the court should award to you and each debt or other obligation (including guarantees, contingent liabilities, and debts secured by property) for which the court should require you to be responsible."
+        },
+        {
+          "number": 27,
+          "text": "If you have owned an interest in any entity since [DATE], for each such entity state: (a) the identity and location of the entity, (b) the form of business organization, (c) the starting date or date you began your association, (d) how much you have contributed to the entity, (e) your ownership interest, and (f) the annual gross profits during each year since [DATE]."
+        },
+        {
+          "number": 30,
+          "text": "If you or your business entity maintains any accounts with any financial institutions, for each account state: (a) the identity and location of the financial institution, (b) the style and number of the account, (c) the identity and location of all authorized signatories, and (d) the current balance."
+        },
+        {
+          "number": 36,
+          "text": "If you contend that one of the marital estates has a reimbursement claim against another marital estate, for each claim state: (a) the marital estates affected, (b) the nature of the claim including the elements in section 3.402 of the Texas Family Code on which you base the claim, and (c) the amount of the claim."
+        },
+        {
+          "number": 38,
+          "text": "If you contend that you are entitled to spousal maintenance, identify facts of which you are specifically aware that establish, demonstrate, or prove the elements contained in section 8.051 of the Texas Family Code on which you rely to support your claim."
+        },
+        {
+          "number": 39,
+          "text": "If you contend that your spouse has committed either actual or constructive fraud with regard to the community estate, for each claim identify facts of which you are specifically aware that establish, demonstrate, or prove your contention, including: (a) the type of fraud committed, (b) when the fraud allegedly occurred, (c) the acts of fraud your spouse committed, (d) the value by which the community estate was depleted as a result of the fraud, and (e) the basis for calculating the reconstituted estate."
+        }
+      ]
+    },
+    "conservatorship": {
+      "label": "Conservatorship and Possession",
+      "tfc_reference": "TFC §153.002 (best interest); TFC §153.003 (no sex discrimination); TFC §153.004 (domestic violence)",
+      "items": [
+        {
+          "number": 40,
+          "text": "If any unrelated adult spent the night with you at any time since [DATE] while you were in possession of your child(ren), state: (a) the identity and location of each person and (b) the dates and locations of each such occurrence."
+        },
+        {
+          "number": 41,
+          "text": "If you contend that it is not in the best interest of the child(ren) that [CLIENT NAME] be appointed [sole/joint managing conservator] with the exclusive right to designate the primary residence of the child(ren), state in general the legal theories that support your contention and identify facts of which you are specifically aware that establish, demonstrate, or prove that contention."
+        },
+        {
+          "number": 42,
+          "text": "If you contend that it is in the best interest of the child(ren) that you be appointed [sole/joint managing conservator] with the exclusive right to designate the primary residence of the child(ren), state in general the legal theories that support your contention and identify facts of which you are specifically aware that establish, demonstrate, or prove that contention."
+        },
+        {
+          "number": 43,
+          "text": "If you contend that it is in the best interest of the child(ren) that the primary residence of the child(ren) be subject to a geographic restriction, identify the geographic area to which the residence should be restricted and state in general the legal theories that support your contention and identify facts of which you are specifically aware that establish, demonstrate, or prove that contention."
+        },
+        {
+          "number": 44,
+          "text": "State what periods of possession and access each conservator should have, state in general the legal theories that support your contention, and identify facts of which you are specifically aware that establish, demonstrate, or prove that contention."
+        },
+        {
+          "number": 45,
+          "text": "If the court requires your periods of possession or access to be supervised, state your contention of how that supervised possession or access should be conducted (including the payment of the cost of any supervisor), state in general the legal theories and factual bases that support your contention, and identify facts of which you are specifically aware that establish, demonstrate, or prove that contention."
+        },
+        {
+          "number": 46,
+          "text": "If you contend the court should require your spouse's periods of possession or access to be supervised, state your contention of how that supervised possession or access should be conducted (including the payment of the cost of any supervisor), state in general the legal theories that support your contention, and identify facts of which you are specifically aware that establish, demonstrate, or prove that contention."
+        },
+        {
+          "number": 47,
+          "text": "State each day you have exercised possession of or access to the child(ren) since [DATE] and the amount of time you spent with each child on each such day."
+        },
+        {
+          "number": 52,
+          "text": "If the child(ren) exhibit changes in demeanor or behavior immediately before or after the child(ren) have been in the possession of [CLIENT NAME], state: (a) the changes you have observed and (b) each date on which you have observed these changes."
+        },
+        {
+          "number": 57,
+          "text": "If you contend that you have been denied possession of or access to the child(ren) since [DATE], for each period identify facts of which you are specifically aware that establish, demonstrate, or prove your contention, including: (a) the date, (b) the circumstances of each denial, and (c) any reasons or excuses given for each denial."
+        },
+        {
+          "number": 58,
+          "text": "If the child(ren)'s location is being tracked or monitored by any means, including electronically or digitally, for each method or device used state: (a) the manner by which the child(ren) are being tracked or monitored, (b) the name, model number, and serial number of any device being used, and (c) each period of time that you have tracked or monitored the child(ren)."
+        }
+      ]
+    },
+    "child_support": {
+      "label": "Child Support",
+      "tfc_reference": "TFC §154.062(b) (resources); TFC §154.065(a) (self-employment income); TFC §154.001 (duty to support)",
+      "items": [
+        {
+          "number": 48,
+          "text": "If the court orders you to pay child support, state the monthly amount of support the court should order you to pay, state the calculations you used to determine that amount, and identify facts of which you are specifically aware that establish, demonstrate, or prove your contention."
+        },
+        {
+          "number": 49,
+          "text": "If the court orders [CLIENT NAME] to pay child support, state the monthly amount of support the court should order [CLIENT NAME] to pay, state the calculations you used to determine that amount, and identify facts of which you are specifically aware that establish, demonstrate, or prove your contention."
+        },
+        {
+          "number": 50,
+          "text": "If you have dependent health or dental insurance coverage available to you, state how much it would or does cost you to cover the child(ren) the subject of this suit on that policy in addition to whatever you pay for health or dental insurance coverage for yourself and any other person."
+        },
+        {
+          "number": 51,
+          "text": "State how the court should order that health and dental insurance coverage be provided for the child(ren), and identify facts of which you are specifically aware that establish, demonstrate, or prove your contention."
+        },
+        {
+          "number": 53,
+          "text": "Generally, what hours do you work and on which days of the week?"
+        },
+        {
+          "number": 54,
+          "text": "If there are any children not the subject of this suit for whom you owe a legal duty of support, for each child state the identity and location, birth date, Social Security number, and, if applicable, the court of continuing jurisdiction for that child."
+        },
+        {
+          "number": 55,
+          "text": "If your child(ren) have any special medical, psychological, or educational needs that necessitate additional expenditures or will necessitate additional expenditures in the future, state: (a) the nature of each need, (b) to whom the expenditures will be made, (c) the amount of the expenditures required on an annual basis, (d) whether the child(ren) require substantial care and personal supervision because of a mental or physical disability and will not be capable of self-support, and (e) if so, the date on which the disability first existed or the cause of the disability was first known to exist."
+        },
+        {
+          "number": 56,
+          "text": "If the child(ren) are involved in extracurricular activities, for each activity state: (a) the nature of the activity, (b) the average annual cost of the activity, and (c) the schedule of the activity."
+        },
+        {
+          "number": 59,
+          "text": "For each of the [NUMBER] months immediately preceding [DATE], state: (a) the source and amount of your average monthly resources and self-employment income, as defined by sections 154.062(b) and 154.065(a) of the Texas Family Code, and (b) the identity and location of each of your employers and other sources of income, if any."
+        },
+        {
+          "number": 60,
+          "text": "For each month since [DATE], state: (a) the source and amount of your average monthly resources and self-employment income, as defined by sections 154.062(b) and 154.065(a) of the Texas Family Code, and (b) the identity and location of each of your employers and other sources of income, if any."
+        },
+        {
+          "number": 61,
+          "text": "If anyone other than yourself is contributing toward the payment of your current household expenses, for each person state: (a) the identity and location of the person and (b) the monthly amount of the contribution."
+        },
+        {
+          "number": 62,
+          "text": "Identify and state the amount of each of your monthly living expenses on [DATE]."
+        },
+        {
+          "number": 63,
+          "text": "Identify and state the amount of each of your current monthly living expenses."
+        }
+      ]
+    },
+    "modification": {
+      "label": "Modification Cases Only",
+      "tfc_reference": "TFC §156.101 (grounds for modification — material and substantial change)",
+      "items": [
+        {
+          "number": 66,
+          "text": "State each reason the order sought to be modified should not be modified."
+        },
+        {
+          "number": 71,
+          "text": "For each person whose circumstances you allege have materially and substantially changed since [the rendition of the order / signing of the mediated settlement agreement / signing of the collaborative law settlement agreement]: (a) state the identity and location of the person, (b) describe the circumstances you allege have changed both as they existed on [DATE] and as they currently exist, and (c) identify facts of which you are specifically aware that establish, demonstrate, or prove the basis as to why each change of circumstances supports your request that the order be modified."
+        },
+        {
+          "number": 72,
+          "text": "If you contend that a change of residence has resulted or will result in increased expenses for you to have possession of or access to the child(ren), state: (a) the amount of expenses you incurred to have possession of or access to the child(ren) for each month before the change of residence, (b) how you calculated these expenses, (c) the amount of the increased expenses after the change of residence, (d) how you calculated these increased expenses, (e) how the court should allocate these increased expenses, (f) why your proposed allocation is fair and equitable, and (g) why your proposed allocation is in the best interest of the child(ren)."
+        },
+        {
+          "number": 74,
+          "text": "If you contend that the child(ren)'s present living environment may endanger the child(ren)'s physical health or significantly impair the child(ren)'s emotional development, state in general the legal theories and factual bases that support your contention and identify facts of which you are specifically aware that establish, demonstrate, or prove that contention."
+        }
+      ]
+    }
+  }
+}

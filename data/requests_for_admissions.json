@@ -1,0 +1,124 @@
+{
+  "type": "requests_for_admissions",
+  "rule": "TRCP 198",
+  "governing_rules": ["TRCP 190", "TRCP 198"],
+  "limits": {
+    "note": "No numerical limit on RFAs under TRCP 198. Each matter must be stated separately.",
+    "discovery_period_end": "30 days before trial date (Family Code cases)",
+    "service_deadline": "No later than 30 days before end of discovery period"
+  },
+  "response_deadline_days": 30,
+  "response_deadline_defendant_days": 50,
+  "deemed_admitted_rule": "If a response is not timely served, the request is considered admitted without the necessity of a court order. TRCP 198.2(c).",
+  "verification_required": false,
+  "verification_note": "No oath required. Responses must specifically admit or deny or explain in detail why the party cannot admit or deny. Lack of information is not proper unless a reasonable inquiry was made.",
+  "signature_block": {
+    "required": true,
+    "elements": ["attorney name", "firm name", "address", "phone", "fax", "state bar number", "email", "party represented"]
+  },
+  "certificate_of_service": {
+    "required": true,
+    "elements": ["service date", "method of service", "person served"]
+  },
+  "cover_instruction": "[PETITIONER/RESPONDENT] requests [OPPOSING PARTY] to admit the truth of the matters, including statements of opinion or of the application of law to fact or the genuineness of any documents served with this request, as set forth below. These requests are made under Rule 198.1 of the Texas Rules of Civil Procedure, and each matter shall be deemed admitted unless a response is delivered within [30/50] days after service of this request.",
+  "categories": {
+    "property_agreements": {
+      "label": "Property Agreements",
+      "items": [
+        {
+          "number": 1,
+          "text": "Admit or Deny that on [DATE] you signed a [property agreement] under the name of [NAME SIGNED], a copy of which is attached as Exhibit [1/A]."
+        },
+        {
+          "number": 2,
+          "text": "Admit or Deny that, as [NAME SIGNED], you signed the [property agreement], a copy of which is attached as Exhibit [1/A], voluntarily, without threat of force or duress."
+        },
+        {
+          "number": 3,
+          "text": "Admit or Deny that the [property agreement], a copy of which is attached as Exhibit [1/A], provided a fair and reasonable disclosure of the property and financial obligations of [PETITIONER/RESPONDENT], [NAME]."
+        },
+        {
+          "number": 4,
+          "text": "Admit or Deny that, as [NAME SIGNED], you voluntarily signed the waiver of any right to disclosure of the property and financial obligations of [PETITIONER/RESPONDENT], [NAME], a copy of which is attached as Exhibit [EXHIBIT NUMBER/LETTER]."
+        },
+        {
+          "number": 5,
+          "text": "Admit or Deny that you had or reasonably could have had adequate knowledge of the property and financial obligations of [PETITIONER/RESPONDENT], [NAME]."
+        }
+      ]
+    },
+    "separate_property": {
+      "label": "Separate Property",
+      "tfc_reference": "TFC §3.001 (separate property definition)",
+      "items": [
+        {
+          "number": 6,
+          "text": "Admit or Deny that property described in the [property agreement], a copy of which is attached as Exhibit [1/A], signed by you as [NAME SIGNED] and by [PETITIONER/RESPONDENT], [NAME], is the sole and separate property of [NAME]."
+        },
+        {
+          "number": 7,
+          "text": "Admit or Deny that, as [NAME SIGNED], you have not personally contributed to the operation, management, or control of [BUSINESS/PROPERTY]."
+        },
+        {
+          "number": 8,
+          "text": "Admit or Deny that [PROPERTY/ASSET] is the separate property of [PETITIONER/RESPONDENT], [NAME]."
+        }
+      ]
+    },
+    "document_authenticity": {
+      "label": "Document Authenticity",
+      "items": [
+        {
+          "number": 9,
+          "text": "Admit or Deny that the document, a copy of which is attached as Exhibit [NUMBER/LETTER], is genuine."
+        }
+      ]
+    },
+    "employment": {
+      "label": "Employment",
+      "items": [
+        {
+          "number": 10,
+          "text": "Admit or Deny that the nature of your employment requires you to [EMPLOYMENT REQUIREMENT]."
+        }
+      ]
+    },
+    "conduct_and_relationship": {
+      "label": "Conduct and Relationship",
+      "items": [
+        {
+          "number": 11,
+          "text": "Admit or Deny that on or around [DATE] you became involved in an extramarital sexual relationship with [NAME]."
+        },
+        {
+          "number": 12,
+          "text": "Admit or Deny that you are currently residing at [ADDRESS] with [NAME]."
+        }
+      ]
+    },
+    "conservatorship_and_children": {
+      "label": "Conservatorship and Children",
+      "tfc_reference": "TFC §153.002 (best interest of child); TFC §153.009 (child's preference)",
+      "items": [
+        {
+          "number": 13,
+          "text": "Admit or Deny that [CHILD(REN) NAMES] has/have expressed a desire to live with [PETITIONER/RESPONDENT], [NAME]."
+        },
+        {
+          "number": 14,
+          "text": "Admit or Deny that, since your separation from [PETITIONER/RESPONDENT], [NAME], on or about [DATE], you have visited with [CHILD(REN) NAMES] only as follows: [DESCRIPTION OF VISITS]."
+        }
+      ]
+    },
+    "custom": {
+      "label": "Custom / Case-Specific",
+      "items": [
+        {
+          "number": 15,
+          "text": "Admit or Deny that [CUSTOM MATTER TO BE ADMITTED OR DENIED].",
+          "note": "Use for case-specific admissions not covered by standard categories."
+        }
+      ]
+    }
+  }
+}

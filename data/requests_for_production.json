@@ -1,0 +1,229 @@
+{
+  "type": "requests_for_production",
+  "rule": "TRCP 196",
+  "governing_rules": ["TRCP 190", "TRCP 196"],
+  "limits": {
+    "note": "No numerical limit on RFPs under TRCP 196. Subject to proportionality under TRCP 192.4.",
+    "discovery_period_end": "30 days before trial date (Family Code cases)",
+    "service_deadline": "No later than 30 days before end of discovery period"
+  },
+  "response_deadline_days": 30,
+  "response_deadline_defendant_days": 50,
+  "verification_required": false,
+  "verification_note": "No oath required for RFP responses. Responses must be in writing and state objections or confirm production.",
+  "signature_block": {
+    "required": true,
+    "elements": ["attorney name", "firm name", "address", "phone", "fax", "state bar number", "email", "party represented"]
+  },
+  "certificate_of_service": {
+    "required": true,
+    "elements": ["service date", "method of service", "person served"]
+  },
+  "cover_instruction": "[PETITIONER/RESPONDENT] requests that [OPPOSING PARTY] produce for inspection and copying the items described below within [30/50] days following service of this request. Documents must be produced either as kept in the ordinary course of business or organized and labeled to correspond with the categories in this request. If items were previously produced in response to another request or disclosure, refer by Bates number.",
+  "time_period_note": "The discovery requested is for documents prepared, received, or generated since [DATE] unless otherwise provided in this request.",
+  "electronic_production_note": "If any information is available in electronic form, produce on CD-ROM, USB flash drive, by email, or file-hosting service in an accessible format.",
+  "definitions": {
+    "document_or_item": "Each tangible thing, recording, or reproduction of any visual or auditory information, however made, whether handwritten, typewritten, printed, or digital, even if kept in only an electronic format, including papers, books, accounts, diaries, notes, memoranda, journals, calendars, letters and correspondence, emails, text messages, blogs, instant messages, social media postings, logs, drawings, graphs, charts, photographs, electronic or videotape recordings, data, data compilations, and any drafts of the foregoing.",
+    "relates_to": "In whole or in part constitutes, contains, concerns, embodies, relates, analyzes, identifies, states, refers to, deals with, or in any way pertains to.",
+    "possession_custody_control": "The person either has physical possession of the item or has a right to possession of the item that is equal or superior to that of the person who has physical possession of the item."
+  },
+  "categories": {
+    "case_documents": {
+      "label": "Case-Related Documents",
+      "items": [
+        {
+          "number": 1,
+          "text": "All documents, including invoices and billing statements, evidencing the contractual relationships with attorneys not designated as experts, consulting experts on whom testifying experts rely, or investigators in connection with this case."
+        },
+        {
+          "number": 2,
+          "text": "All documents that relate to: (a) conservatorship, (b) possession and access, (c) child support and medical and dental support for the child(ren), (d) family violence, (e) attorney's fees, and (f) requests for permanent injunctions.",
+          "case_types": ["divorce_with_children", "sapcr", "modification"]
+        },
+        {
+          "number": 3,
+          "text": "All documents that relate to: (a) division of property and liabilities, including claims for a disproportionate division of the community estate, (b) value of each asset, (c) amount of each liability, (d) characterization of any property claimed as separate property and any liability claimed as separate, (e) attorney's fees, (f) fault in the breakup of the marriage, (g) family violence, (h) tort claims, and (i) requests for permanent injunctions.",
+          "case_types": ["divorce"]
+        }
+      ]
+    },
+    "income_and_employment": {
+      "label": "Income and Employment",
+      "tfc_reference": "TFC §154.062(b) (resources); TFC §154.065(a) (self-employment income)",
+      "items": [
+        {
+          "number": 4,
+          "text": "All documents that relate to federal or state income reporting or gift tax reporting since [DATE], including: (a) tax returns with all schedules and amendments and accountant work papers, whether personal or for any entity in which either party owns or claims any interest, (b) W-2 forms, (c) 1099 forms, and (d) K-1 forms."
+        },
+        {
+          "number": 5,
+          "text": "All Social Security Earnings Record forms (Form SSA-7005), Personal Earnings Benefit Estimate Statements (PEBES), payroll statements and pay stubs, and other income- and revenue-reporting forms that evidence the parties' income since [DATE]."
+        },
+        {
+          "number": 6,
+          "text": "All documents that relate to benefits from an employer apart from salary that you have received or have been eligible to receive since [DATE], including: (a) payment of personal expenses, (b) payment of housing expenses, (c) vacation pay, (d) payment of medical, hospitalization, or dental insurance, life insurance, annuities, and disability insurance policies, (e) payment of automobile expenses, (f) payment of travel allowances, (g) country club or other memberships, (h) use of company airplanes, homes, boats, or cars, (i) interest-free or low-interest loans, (j) payment of legal fees, (k) accounting or bookkeeping services, and (l) payment for items used by you personally."
+        },
+        {
+          "number": 7,
+          "text": "All documents that relate to your employment compensation, including contracts, overtime compensation, bonuses, deferred compensation, and severance pay that you have received or have been eligible to receive since [DATE]."
+        }
+      ]
+    },
+    "financial_accounts": {
+      "label": "Financial Accounts and Assets",
+      "items": [
+        {
+          "number": 8,
+          "text": "All periodic statements that relate to financial accounts on deposit with banks, brokerage firms, or other financial institutions. This request applies to all accounts since [DATE] whether held in your name or your name jointly with any other person, and to any account from which you have the right to make withdrawals."
+        },
+        {
+          "number": 9,
+          "text": "All documents that relate to the current value of the parties' property described in your answers to interrogatories and in your inventory and appraisement in this suit, whether the property is in your possession, your spouse's possession, or the possession of another person or entity."
+        },
+        {
+          "number": 11,
+          "text": "All documents that relate to certificates of deposit or government bonds, or certificates of safekeeping representing the certificates of deposit or government bonds, in which the parties now claim or have claimed an interest since [DATE]."
+        },
+        {
+          "number": 12,
+          "text": "All documents that relate to non-employer-provided individual retirement accounts, stocks (restricted and unrestricted), bonds, options, warrants, mutual funds, commodities, or other securities in which the parties now claim or have claimed an interest since [DATE]."
+        },
+        {
+          "number": 13,
+          "text": "All documents that relate to your present or former employer-provided stock options, phantom stock, or retirement, pension, profit-sharing, employee stock ownership, restricted stock, savings, stock appreciation, deferred compensation, or Keogh plans in which the parties claim an interest."
+        },
+        {
+          "number": 14,
+          "text": "All documents that relate to health savings accounts, medical savings accounts, flexible benefit accounts, or flexible spending accounts in the name of a party."
+        },
+        {
+          "number": 16,
+          "text": "All records that relate to safe-deposit boxes maintained by the parties or on their behalf, including records of entry since [DATE]."
+        },
+        {
+          "number": 22,
+          "text": "All financial statements regarding the parties and prepared by or on behalf of the parties since [DATE]."
+        },
+        {
+          "number": 24,
+          "text": "All documents that relate to funds, property, and accounts held by you for the benefit of another, including 529 plans and custodial accounts held for the benefit of a minor under the Texas Uniform Transfers to Minor Act since [DATE]."
+        },
+        {
+          "number": 25,
+          "text": "All documents that relate to funds, property, or accounts held by another for your benefit since [DATE]."
+        },
+        {
+          "number": 29,
+          "text": "All documents that relate to transactions regarding the purchase, mining, sale, or transfer of encrypted digital currency."
+        }
+      ]
+    },
+    "debts_and_liabilities": {
+      "label": "Debts and Liabilities",
+      "items": [
+        {
+          "number": 10,
+          "text": "All documents that relate to the parties' debts since [DATE], including: (a) credit card statements, (b) loan applications, (c) credit applications, (d) lease applications, (e) promissory notes, (f) guaranty agreements, (g) lease agreements, (h) lines of credit, (i) security agreements, (j) credit reports, and (k) other obligations and contractual agreements in the name of the parties or to which the parties are signatories."
+        },
+        {
+          "number": 15,
+          "text": "All notes receivable, accounts receivable, mortgages, and other evidence or information that relate to debts due, lawsuits, claims of any kind, or other contingent assets in which you own or claim any interest, whether payable to you, your spouse, or your child(ren) individually or otherwise since [DATE]."
+        }
+      ]
+    },
+    "real_and_personal_property": {
+      "label": "Real and Personal Property",
+      "items": [
+        {
+          "number": 17,
+          "text": "All deeds, deeds of trust, notes, and closing statements that relate to any real property, including oil, gas, or other mineral interests, in which the parties now claim or have claimed an interest since [DATE]."
+        },
+        {
+          "number": 18,
+          "text": "All certificates of title for motor vehicles, boats, recreational vehicles, aircraft, or watercraft in which the parties claim an interest."
+        },
+        {
+          "number": 19,
+          "text": "All policies of insurance, whether life, health, automobile, disability, casualty, homeowners, personal articles, or otherwise, in which the parties claim insurance protection."
+        },
+        {
+          "number": 26,
+          "text": "All documents that relate to ownership or membership by a party in clubs, associations, frequent flyer or other mileage programs, hotel clubs, rewards programs, or other organizations, including documents reflecting the value of those interests."
+        },
+        {
+          "number": 27,
+          "text": "All documents that relate to intellectual property or other intangible property, including patents, trademarks, copyrights, artistic works in progress, domain names, licensing agreements, trade secrets, non-mineral interest royalties, and licensing fees, in which you or your spouse now owns or has owned an interest since [DATE]."
+        },
+        {
+          "number": 28,
+          "text": "All documents that relate to lottery tickets or other games of chance owned or purchased by you since [DATE]."
+        }
+      ]
+    },
+    "business_entities": {
+      "label": "Business Entities",
+      "items": [
+        {
+          "number": 20,
+          "text": "All articles of incorporation or organization, partnership agreements, or joint venture agreements of entities in which the parties now claim or have claimed any legal or equitable interest since [DATE]."
+        },
+        {
+          "number": 21,
+          "text": "For each entity owned or claimed by either party, all documents since [DATE] related to: (a) credit card statements, (b) loan applications, (c) credit applications, (d) lease applications, (e) promissory notes, (f) guaranty agreements, (g) lease agreements, (h) lines of credit, (i) security agreements, (j) credit reports, and (k) other obligations and contractual agreements in the name of the entity or to which the entity is a signatory."
+        },
+        {
+          "number": 23,
+          "text": "All financial statements, profit and loss statements, balance sheets, income and expense statements, operating statements, and general ledgers prepared by or on behalf of [ENTITY NAME] since [DATE]. Produce in native digital or electronic format (e.g., QuickBooks) if available."
+        }
+      ]
+    },
+    "children_and_family": {
+      "label": "Children and Family",
+      "tfc_reference": "TFC §153.002 (best interest of child)",
+      "items": [
+        {
+          "number": 32,
+          "text": "All correspondence and other documents, including enrollment, attendance, and grade records, as well as progress reports, evaluations, and standardized test scores, that relate to the child(ren) the subject of this suit from camps, schools, or day-care facilities in which the child(ren) have been enrolled since [DATE]."
+        },
+        {
+          "number": 34,
+          "text": "All residence and wireless telephone records of the parties since [DATE]."
+        },
+        {
+          "number": 35,
+          "text": "All records that relate to medical, psychological, or psychiatric treatments, consultations or diagnoses of the [parties/children/both], including but not limited to any prescriptions, since [DATE]."
+        },
+        {
+          "number": 36,
+          "text": "All court orders requiring you to pay or entitling you to receive spousal maintenance, alimony, or child support."
+        },
+        {
+          "number": 38,
+          "text": "All documents that relate to benefits the child(ren) are entitled to receive or have received as a result of all disability claims you have filed with the Social Security Administration or any other entity."
+        },
+        {
+          "number": 40,
+          "text": "All passports that have been issued and passport applications that have been submitted on behalf of the child(ren) since [DATE]."
+        }
+      ]
+    },
+    "reimbursement_and_community": {
+      "label": "Reimbursement and Community Estate",
+      "tfc_reference": "TFC §3.402 (reimbursement claims)",
+      "items": [
+        {
+          "number": 30,
+          "text": "All documents that relate to reimbursement due from a marital estate to another marital estate, including offsetting benefits."
+        },
+        {
+          "number": 31,
+          "text": "All documents that support claims by you for reconstitution of the community estate."
+        },
+        {
+          "number": 33,
+          "text": "All documents evidencing any gifts or things of value in excess of $[AMOUNT] you gave or provided since [DATE] to any entity or person to whom you are not related by blood or marriage."
+        }
+      ]
+    }
+  }
+}

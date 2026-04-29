@@ -1,0 +1,84 @@
+{
+  "type": "requests_for_disclosure",
+  "rule": "TRCP 194 / TFC Subchapter B Chapter 301",
+  "governing_rules": ["TRCP 194", "TRCP 195"],
+  "limits": {
+    "note": "No objection or assertion of work product privilege is permitted to a request under Rule 194. TRCP 194.5.",
+    "discovery_period_end": "No later than 30 days before end of any applicable discovery period",
+    "service_deadline": "No later than 30 days before end of discovery period"
+  },
+  "response_deadline_days": 30,
+  "response_deadline_defendant_days": 50,
+  "no_objection_rule": "No objection or assertion of work product is permitted to a request under this rule. TRCP 194.5.",
+  "verification_required": false,
+  "verification_note": "Response must be signed. No oath required. Rule 194.3.",
+  "signature_block": {
+    "required": true,
+    "elements": ["attorney name", "firm name", "address", "phone", "fax", "state bar number", "email", "party represented"]
+  },
+  "certificate_of_service": {
+    "required": true,
+    "elements": ["service date", "method of service", "person served"]
+  },
+  "cover_instruction": "Pursuant to rule 194a of the Texas Rules of Civil Procedure and subchapter B, chapter 301, Family Code, you are requested to disclose the information or material described below within [30/50] days after service of this request. The originals or copies of documents and other tangible items requested must be produced for inspection and copying at [ADDRESS] within [30/50] days after service of this request, together with a written response. Each written response must be preceded by the request to which it applies. No objection or assertion of work product privilege is permitted to this request. If you fail to comply with this request, the court may order sanctions against you in accordance with the Texas Rules of Civil Procedure. Your response must be signed.",
+  "requests": [
+    {
+      "number": 1,
+      "text": "State the correct names of the parties to the lawsuit.",
+      "rule_ref": "TRCP 194.2(a)"
+    },
+    {
+      "number": 2,
+      "text": "State the names, addresses, and telephone numbers of any potential parties.",
+      "rule_ref": "TRCP 194.2(b)"
+    },
+    {
+      "number": 3,
+      "text": "State the legal theories and, in general, the factual bases for the claims or defenses of [OPPOSING PARTY]. You need not marshal or compile all evidence that may be offered at trial.",
+      "rule_ref": "TRCP 194.2(c)"
+    },
+    {
+      "number": 4,
+      "text": "State the amount and any method of calculating economic damages.",
+      "rule_ref": "TRCP 194.2(d)"
+    },
+    {
+      "number": 5,
+      "text": "State the names, addresses, and telephone numbers of persons having knowledge of relevant facts, and give a brief statement of each identified person's connection with the case.",
+      "rule_ref": "TRCP 194.2(e)"
+    },
+    {
+      "number": 6,
+      "text": "For any testifying expert: (a) state the expert's name, address, and telephone number; (b) state the subject matter on which the expert will testify; (c) state the general substance of the expert's mental impressions and opinions and a brief summary of the basis for them or, if the expert is not retained by, employed by, or otherwise subject to the control of [OPPOSING PARTY], documents reflecting such information; (d) if an expert is retained by, employed by, or otherwise subject to the control of [OPPOSING PARTY], produce the originals or copies of: (i) all documents, tangible things, reports, models, or data compilations that have been provided to, reviewed by, or prepared by or for the expert in anticipation of the expert's testimony, and (ii) the expert's current resume and bibliography.",
+      "rule_ref": "TRCP 194.2(f)",
+      "note": "Response to this request is governed by TRCP 195."
+    },
+    {
+      "number": 7,
+      "text": "Produce the originals or copies of any settlement agreements described in Rule 192.3(g) of the Texas Rules of Civil Procedure.",
+      "rule_ref": "TRCP 194.2(h)"
+    },
+    {
+      "number": 8,
+      "text": "Produce the originals or copies of any discoverable witness statements described in Rule 192.3(h) of the Texas Rules of Civil Procedure.",
+      "rule_ref": "TRCP 194.2(i)"
+    },
+    {
+      "number": 9,
+      "text": "Produce the originals or copies of (a) all medical records and bills that are reasonably related to the injuries or damages asserted or (b) an authorization permitting the disclosure of such medical records and bills.",
+      "rule_ref": "TRCP 194.2(j)",
+      "condition": "Use only in a suit alleging physical or mental injury and damages."
+    },
+    {
+      "number": 10,
+      "text": "Produce the originals or copies of all medical records and bills obtained by [OPPOSING PARTY] by virtue of an authorization furnished by [NAME].",
+      "rule_ref": "TRCP 194.2(k)",
+      "condition": "Use only in a suit alleging physical or mental injury and damages."
+    },
+    {
+      "number": 11,
+      "text": "State the name, address, and telephone number of any person who may be designated as a responsible third party.",
+      "rule_ref": "TRCP 194.2(l)"
+    }
+  ]
+}
