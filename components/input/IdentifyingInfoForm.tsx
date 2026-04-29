@@ -10,15 +10,15 @@ export default function IdentifyingInfoForm({ showErrors }: IdentifyingInfoFormP
   const { session, updateSession } = useSession()
 
   const baseInput =
-    'w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-navy'
+    'w-full border border-light-blue rounded px-3 py-2 text-sm text-navy bg-white focus:outline-none focus:border-navy'
   const errorInput =
-    'w-full border border-red-500 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-500'
+    'w-full border border-red-500 rounded px-3 py-2 text-sm text-navy bg-white focus:outline-none focus:border-red-500'
 
   function cls(value: string) {
     return showErrors && value.trim() === '' ? errorInput : baseInput
   }
 
-  const labelClass = 'block text-sm font-medium text-gray-700 mb-1'
+  const labelClass = 'block text-sm font-medium text-navy mb-1'
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -80,6 +80,18 @@ export default function IdentifyingInfoForm({ showErrors }: IdentifyingInfoFormP
           onChange={e => updateSession({ court: e.target.value })}
           className={cls(session.court)}
           placeholder="e.g. 256th District Court"
+        />
+      </div>
+
+      {/* Judicial district */}
+      <div>
+        <label className={labelClass}>Judicial district</label>
+        <input
+          type="text"
+          value={session.judicialDistrict}
+          onChange={e => updateSession({ judicialDistrict: e.target.value })}
+          className={baseInput}
+          placeholder="e.g. 256th Judicial District"
         />
       </div>
 

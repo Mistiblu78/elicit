@@ -24,7 +24,7 @@ export default function DocumentTabs({
 }: DocumentTabsProps) {
   return (
     <div>
-      <div className="flex border-b border-gray-200 overflow-x-auto" role="tablist">
+      <div className="flex border-b border-light-blue overflow-x-auto" role="tablist">
         {documents.map((doc, i) => {
           const label = TYPE_LABELS[doc.type] ?? doc.type
           const isActive = i === activeIndex

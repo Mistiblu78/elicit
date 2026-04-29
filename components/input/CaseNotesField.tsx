@@ -55,10 +55,10 @@ export default function CaseNotesField() {
   }
 
   const textareaClass = [
-    'w-full border rounded px-3 py-2 text-sm focus:outline-none resize-y min-h-[160px]',
+    'w-full border rounded px-3 py-2 text-sm text-navy bg-white focus:outline-none resize-y min-h-[160px]',
     isOverLimit
       ? 'border-red-500 focus:border-red-500'
-      : 'border-gray-300 focus:border-navy',
+      : 'border-light-blue focus:border-navy',
   ].join(' ')
 
   return (

@@ -45,7 +45,7 @@ export default function InputPage() {
         </div>
       )}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-navy">New Discovery Request</h1>
+        <h1 className="text-2xl font-bold text-black">New Discovery Request</h1>
         <button
           onClick={() => setShowConfirm(true)}
           className="text-sm text-gray-muted hover:text-navy transition-colors"
@@ -55,7 +55,7 @@ export default function InputPage() {
       </div>
 
       <section className="mb-8">
-        <h2 className="text-lg font-semibold text-navy mb-4">Identifying Information</h2>
+        <h2 className="text-lg font-semibold text-black mb-4">Identifying Information</h2>
         <p className="text-sm text-gray-muted mb-4">
           This information populates your documents automatically. It is never sent to the AI model.
         </p>
@@ -63,12 +63,12 @@ export default function InputPage() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-lg font-semibold text-navy mb-4">Case Details</h2>
+        <h2 className="text-lg font-semibold text-black mb-4">Case Details</h2>
         <CaseDetailsForm />
       </section>
 
       <section className="mb-8">
-        <h2 className="text-lg font-semibold text-navy mb-4">Case Notes</h2>
+        <h2 className="text-lg font-semibold text-black mb-4">Case Notes</h2>
         <p className="text-sm text-gray-muted mb-2">
           Describe the disputed issues using placeholders instead of real names. The example below shows correct usage — clear it and enter your own facts.
         </p>

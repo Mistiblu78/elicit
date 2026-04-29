@@ -27,39 +27,50 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'session_limit' }, { status: 200 })
     }
 
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, timeout: 120000 })
 
-    const userMessage = buildPrompt({
-      caseType: payload.caseType,
-      modificationType: payload.modificationType,
-      discoveryLevel: payload.discoveryLevel,
-      requestTypes: payload.requestTypes,
-      responseDeadline: payload.responseDeadline,
-      caseNotes: payload.caseNotes,
-    })
+    // One API call per request type — keeps each call under 4,000 tokens and prevents timeouts
+    const perTypeResults = await Promise.all(
+      payload.requestTypes.map(async (requestType) => {
+        const userMessage = buildPrompt({
+          caseType: payload.caseType,
+          modificationType: payload.modificationType,
+          discoveryLevel: payload.discoveryLevel,
+          requestTypes: [requestType],
+          responseDeadline: payload.responseDeadline,
+          caseNotes: payload.caseNotes,
+        })
 
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 8000,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userMessage }],
-    })
+        const response = await client.messages.create({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 4000,
+          system: SYSTEM_PROMPT,
+          messages: [{ role: 'user', content: userMessage }],
+        })
 
-    const content = response.content[0]
-    if (content.type !== 'text') {
-      return NextResponse.json({ error: 'api_error' }, { status: 500 })
-    }
+        const content = response.content[0]
+        if (content.type !== 'text') throw new Error('non_text_response')
 
-    console.log('stop_reason:', response.stop_reason)
-    console.log('output_tokens:', response.usage.output_tokens)
+        console.log(`[${requestType}] stop_reason:`, response.stop_reason)
+        console.log(`[${requestType}] output_tokens:`, response.usage.output_tokens)
 
-    // Parse the JSON array from Claude's response
-    // Strip markdown code fences if Claude wrapped the JSON
-    let rawText = content.text.trim()
-    if (rawText.startsWith('```')) {
-      rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim()
-    }
-    const documents = JSON.parse(rawText)
+        // Strip markdown code fences if Claude wrapped the JSON
+        let rawText = content.text.trim()
+        if (rawText.startsWith('```')) {
+          rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim()
+        }
+        // Strip any leading warning lines (e.g. "⚠ Possible PII detected...") before the JSON array
+        const jsonStart = rawText.indexOf('[')
+        if (jsonStart > 0) rawText = rawText.slice(jsonStart)
+        // Strip any trailing garbage after the closing bracket (e.g. stray backticks)
+        const jsonEnd = rawText.lastIndexOf(']')
+        if (jsonEnd >= 0 && jsonEnd < rawText.length - 1) rawText = rawText.slice(0, jsonEnd + 1)
+
+        return JSON.parse(rawText) as unknown[]
+      })
+    )
+
+    const documents = perTypeResults.flat()
     return NextResponse.json(documents)
 
   } catch (error) {

@@ -36,8 +36,8 @@ export default function CaseDetailsForm() {
   const { session, updateSession } = useSession()
 
   const selectClass =
-    'w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-navy'
-  const labelClass = 'block text-sm font-medium text-gray-700 mb-1'
+    'w-full border border-light-blue rounded px-3 py-2 text-sm text-navy bg-white focus:outline-none focus:border-navy'
+  const labelClass = 'block text-sm font-medium text-navy mb-1'
 
   function handleCaseTypeChange(value: typeof CASE_TYPES[number]) {
     const updates: Parameters<typeof updateSession>[0] = { caseType: value }
@@ -126,7 +126,7 @@ export default function CaseDetailsForm() {
                 onChange={() => toggleRequestType(value)}
                 className="h-4 w-4 rounded border-gray-300 text-navy accent-navy"
               />
-              <span className="text-sm text-gray-700">{label}</span>
+              <span className="text-sm text-navy">{label}</span>
             </label>
           ))}
         </div>
@@ -153,7 +153,7 @@ export default function CaseDetailsForm() {
                 onChange={() => updateSession({ responseDeadline: deadline })}
                 className="h-4 w-4 border-gray-300 text-navy accent-navy"
               />
-              <span className="text-sm text-gray-700">{deadline}</span>
+              <span className="text-sm text-navy">{deadline}</span>
             </label>
           ))}
         </div>

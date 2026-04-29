@@ -19,13 +19,18 @@ import type { GeneratedDocument, SessionState } from '@/context/SessionContext'
 function para(text: string, opts?: {
   bold?: boolean
   center?: boolean
-  indentLeft?: number   // twips
-  spaceBefore?: number  // twips
-  spaceAfter?: number   // twips
+  left?: boolean       // force left (short address/signature lines)
+  indentLeft?: number  // twips
+  spaceBefore?: number // twips
+  spaceAfter?: number  // twips
   allCaps?: boolean
 }): Paragraph {
+  let alignment = AlignmentType.BOTH  // justified by default
+  if (opts?.center) alignment = AlignmentType.CENTER
+  if (opts?.left) alignment = AlignmentType.LEFT
+
   return new Paragraph({
-    alignment: opts?.center ? AlignmentType.CENTER : AlignmentType.LEFT,
+    alignment,
     indent: opts?.indentLeft ? { left: opts.indentLeft } : undefined,
     spacing: {
       before: opts?.spaceBefore ?? 0,
@@ -38,6 +43,7 @@ function para(text: string, opts?: {
         allCaps: opts?.allCaps ?? false,
         size: 24, // 12pt
         font: 'Times New Roman',
+        color: '000000',
       }),
     ],
   })
@@ -45,21 +51,23 @@ function para(text: string, opts?: {
 
 function blank(): Paragraph {
   return new Paragraph({
-    children: [new TextRun({ text: '', size: 24, font: 'Times New Roman' })],
+    children: [new TextRun({ text: '', size: 24, font: 'Times New Roman', color: '000000' })],
     spacing: { after: 0 },
   })
 }
 
-function sectionHeading(text: string): Paragraph {
+// Main document heading — bold, centered, no underline
+function heading(text: string): Paragraph {
   return new Paragraph({
+    alignment: AlignmentType.CENTER,
     spacing: { before: 200, after: 100 },
     children: [
       new TextRun({
         text,
         bold: true,
-        underline: {},
         size: 24,
         font: 'Times New Roman',
+        color: '000000',
       }),
     ],
   })
@@ -74,34 +82,18 @@ const noBorder = {
   right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
 }
 
-function cell(text: string, opts?: { bold?: boolean; rightAlign?: boolean }): TableCell {
-  return new TableCell({
-    borders: noBorder,
-    children: [
-      new Paragraph({
-        alignment: opts?.rightAlign ? AlignmentType.RIGHT : AlignmentType.LEFT,
-        children: [
-          new TextRun({
-            text,
-            bold: opts?.bold ?? false,
-            size: 24,
-            font: 'Times New Roman',
-          }),
-        ],
-      }),
-    ],
-  })
-}
-
-function captionRow(left: string, showCauseNo: boolean, causeNo: string): TableRow {
+// Three-column caption row: left-aligned party info | centered § | right-aligned court info
+function captionRow3(left: string, right: string): TableRow {
   return new TableRow({
     children: [
       new TableCell({
         borders: noBorder,
-        width: { size: 65, type: WidthType.PERCENTAGE },
+        width: { size: 55, type: WidthType.PERCENTAGE },
         children: [
           new Paragraph({
-            children: [new TextRun({ text: left, size: 24, font: 'Times New Roman' })],
+            alignment: AlignmentType.LEFT,
+            spacing: { before: 0, after: 0 },
+            children: [new TextRun({ text: left, size: 24, font: 'Times New Roman', color: '000000' })],
           }),
         ],
       }),
@@ -111,22 +103,19 @@ function captionRow(left: string, showCauseNo: boolean, causeNo: string): TableR
         children: [
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: '§', size: 24, font: 'Times New Roman' })],
+            spacing: { before: 0, after: 0 },
+            children: [new TextRun({ text: '§', size: 24, font: 'Times New Roman', color: '000000' })],
           }),
         ],
       }),
       new TableCell({
         borders: noBorder,
-        width: { size: 30, type: WidthType.PERCENTAGE },
+        width: { size: 40, type: WidthType.PERCENTAGE },
         children: [
           new Paragraph({
-            children: [
-              new TextRun({
-                text: showCauseNo ? `Cause No. ${causeNo}` : '',
-                size: 24,
-                font: 'Times New Roman',
-              }),
-            ],
+            alignment: AlignmentType.RIGHT,
+            spacing: { before: 0, after: 0 },
+            children: [new TextRun({ text: right, size: 24, font: 'Times New Roman', color: '000000' })],
           }),
         ],
       }),
@@ -137,38 +126,64 @@ function captionRow(left: string, showCauseNo: boolean, causeNo: string): TableR
 function buildCaption(session: SessionState): Array<Paragraph | Table> {
   const courtLine = `IN THE ${session.court.toUpperCase()}`
   const countyLine = `${session.county.toUpperCase()} COUNTY, TEXAS`
-  const isMarriage =
-    session.caseType === 'Divorce — No Children' ||
-    session.caseType === 'Divorce — With Children'
-  const matterLine = isMarriage
-    ? 'In the Matter of the Marriage of'
-    : 'In the Interest of the Child(ren) Subject to This Suit'
+  const caseType = session.caseType
 
-  return [
-    para(courtLine, { center: true, bold: true }),
-    para(countyLine, { center: true, bold: true }),
-    blank(),
-    new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
-      borders: {
-        top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-        bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-        left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-        right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-        insideHorizontal: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-        insideVertical: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      },
-      rows: [
-        captionRow(matterLine, false, ''),
-        captionRow(`${session.petitioner},`, true, session.causeNumber),
-        captionRow('', false, ''),
-        captionRow('     and', false, ''),
-        captionRow('', false, ''),
-        captionRow(session.respondent, false, ''),
-      ],
-    }),
-    blank(),
-  ]
+  // Cause number on its own centered bold paragraph above the caption table
+  const causeNoPara = para(`NO. ${session.causeNumber}`, {
+    center: true,
+    bold: true,
+    spaceAfter: 120,
+  })
+
+  let rows: TableRow[]
+
+  if (caseType === 'Divorce — No Children') {
+    rows = [
+      captionRow3('IN THE MATTER OF', courtLine),
+      captionRow3('THE MARRIAGE OF', ''),
+      captionRow3('', ''),
+      captionRow3(session.petitioner, ''),
+      captionRow3('AND', session.judicialDistrict),
+      captionRow3(session.respondent, countyLine),
+    ]
+  } else if (caseType === 'Divorce — With Children') {
+    rows = [
+      captionRow3('IN THE MATTER OF', courtLine),
+      captionRow3('THE MARRIAGE OF', ''),
+      captionRow3('', ''),
+      captionRow3(session.petitioner, ''),
+      captionRow3('AND', session.judicialDistrict),
+      captionRow3(session.respondent, ''),
+      captionRow3('', ''),
+      captionRow3('AND IN THE INTEREST OF', ''),
+      captionRow3('[CHILD],', ''),
+      captionRow3('A CHILD', countyLine),
+    ]
+  } else {
+    // Original SAPCR and Modification
+    rows = [
+      captionRow3('IN THE INTEREST OF', courtLine),
+      captionRow3('', ''),
+      captionRow3('[CHILD],', session.judicialDistrict),
+      captionRow3('', ''),
+      captionRow3('A CHILD', countyLine),
+    ]
+  }
+
+  const table = new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    borders: {
+      top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+      bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+      left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+      right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+      insideHorizontal: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+      insideVertical: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+    },
+    rows,
+  })
+
+  return [causeNoPara, table, blank()]
 }
 
 // ─── to line ─────────────────────────────────────────────────────────────────
@@ -190,30 +205,27 @@ function buildSignatureBlock(session: SessionState): Paragraph[] {
   const requestingLabel = session.requestingParty
   return [
     blank(),
-    para('Respectfully submitted,', { spaceAfter: 200 }),
-    para(session.firmName, { bold: true }),
-    para(session.firmAddress),
-    para(session.firmCityStateZip),
-    para(`Phone: ${session.phone}`),
-    para(`Fax: ${session.fax}`),
+    para('Respectfully submitted,', { left: true, spaceAfter: 200 }),
+    para(session.firmName, { bold: true, left: true }),
+    para(session.firmAddress, { left: true }),
+    para(session.firmCityStateZip, { left: true }),
+    para(`Phone: ${session.phone}`, { left: true }),
+    para(`Fax: ${session.fax}`, { left: true }),
     blank(),
-    para(`By: /s/ ${session.attorneyName}`, { spaceBefore: 80 }),
-    para(session.attorneyName, { bold: true }),
-    para(`Attorney for ${requestingLabel}`),
-    para(`State Bar No. ${session.barNumber}`),
-    para(session.email),
+    para(`By: /s/ ${session.attorneyName}`, { left: true, spaceBefore: 80 }),
+    para(session.attorneyName, { bold: true, left: true }),
+    para(`Attorney for ${requestingLabel}`, { left: true }),
+    para(`State Bar No. ${session.barNumber}`, { left: true }),
+    para(session.email, { left: true }),
   ]
 }
 
 // ─── certificate of service ──────────────────────────────────────────────────
 
 function buildCertificate(
-  doc: GeneratedDocument,
   session: SessionState
 ): Paragraph[] {
-  const certText =
-    doc.certificate?.text ??
-    `I certify that a true and correct copy of the foregoing was served on ${session.opposingCounsel}, attorney of record for ${session.requestingParty === 'Petitioner' ? session.respondent : session.petitioner}, on the date below.`
+  const certText = `I certify that a true and correct copy of the foregoing was served on ${session.opposingCounsel}, attorney of record for ${session.requestingParty === 'Petitioner' ? session.respondent : session.petitioner}, on the date below.`
 
   return [
     blank(),
@@ -221,8 +233,8 @@ function buildCertificate(
     blank(),
     para(certText),
     blank(),
-    para(`/s/ ${session.attorneyName}`),
-    para(session.attorneyName),
+    para(`/s/ ${session.attorneyName}`, { left: true }),
+    para(session.attorneyName, { left: true }),
   ]
 }
 
@@ -235,7 +247,7 @@ function buildRequestsSection(
   const paragraphs: Paragraph[] = []
   if (!doc.requests?.length) return paragraphs
 
-  paragraphs.push(sectionHeading(headingLabel))
+  paragraphs.push(heading(headingLabel))
   paragraphs.push(blank())
 
   for (const section of doc.requests) {
@@ -249,6 +261,7 @@ function buildRequestsSection(
               bold: true,
               size: 24,
               font: 'Times New Roman',
+              color: '000000',
             }),
           ],
         })
@@ -257,6 +270,7 @@ function buildRequestsSection(
     for (const item of section.items) {
       paragraphs.push(
         new Paragraph({
+          alignment: AlignmentType.BOTH,
           indent: { left: 360, hanging: 360 },
           spacing: { before: 60, after: 120 },
           children: [
@@ -264,6 +278,7 @@ function buildRequestsSection(
               text: `${item.number}.\t${item.text}`,
               size: 24,
               font: 'Times New Roman',
+              color: '000000',
             }),
           ],
         })
@@ -281,19 +296,20 @@ function buildInterrogatoriesDoc(
 ): Array<Paragraph | Table> {
   const requestingLabel = session.requestingParty
   const respondingLabel = requestingLabel === 'Petitioner' ? 'Respondent' : 'Petitioner'
-  const requestingName = requestingLabel === 'Petitioner' ? session.petitioner : session.respondent
   const respondingName = requestingLabel === 'Petitioner' ? session.respondent : session.petitioner
   const pronoun = session.opposingPronoun
+  const requestingName = requestingLabel === 'Petitioner' ? session.petitioner : session.respondent
   const deadline = session.responseDeadline.replace(' days', '')
 
   const children: Array<Paragraph | Table> = []
 
-  // Caption
+  // 1. Caption (cause number + 3-column table)
   children.push(...buildCaption(session))
 
-  // Title
+  // 2. Title — ALL CAPS, bold, centered, below caption
+  const rawTitle = doc.title ?? `${requestingLabel.toUpperCase()}'S WRITTEN INTERROGATORIES TO ${respondingLabel.toUpperCase()}`
   children.push(
-    para(doc.title ?? `${requestingLabel.toUpperCase()}'S WRITTEN INTERROGATORIES TO ${respondingLabel.toUpperCase()}`, {
+    para(rawTitle.toUpperCase(), {
       bold: true,
       center: true,
       spaceBefore: 120,
@@ -301,10 +317,10 @@ function buildInterrogatoriesDoc(
     })
   )
 
-  // To line
+  // 3. To line
   children.push(buildToLine(respondingName, pronoun, session.opposingCounsel))
 
-  // Cover (exact from Texas State Bar template)
+  // 4. Cover paragraph
   children.push(
     para(
       `Under rules 190 and 197 of the Texas Rules of Civil Procedure, you are required to answer in complete detail and in writing each of the attached interrogatories; sign your answers to the interrogatories as required by rule 191.3(a) of the Texas Rules of Civil Procedure; swear to the truth of your answers before a notary public or other judicial officer as required by rules 191.3(a) and 197.2(d) of the Texas Rules of Civil Procedure or make an unsworn declaration as allowed by section 132.001 of the Texas Civil Practice and Remedies Code; and deliver a complete, signed copy of your answers, notarized if applicable, to the undersigned attorney within ${deadline} days following service of this request. If you fail to comply with the requirements above, the Court may order sanctions against you in accordance with the Texas Rules of Civil Procedure.`,
@@ -312,8 +328,8 @@ function buildInterrogatoriesDoc(
     )
   )
 
-  // Definitions
-  children.push(sectionHeading('Definitions'))
+  // 5. DEFINITIONS
+  children.push(heading('DEFINITIONS'))
   children.push(
     para(
       '"Identity and location" means the person\'s name and present or last known address and telephone number. If any of the above information is not available, state any other means of identifying the individual.'
@@ -335,8 +351,8 @@ function buildInterrogatoriesDoc(
     )
   )
 
-  // Instructions
-  children.push(sectionHeading('Instructions'))
+  // 6. INSTRUCTIONS
+  children.push(heading('INSTRUCTIONS'))
   children.push(
     para(
       `All information that is not privileged that is in the possession, custody, or control of ${respondingName}, ${pronoun} attorney, investigators, agents, and consulting experts, as defined in the Texas Rules of Civil Procedure, employees, or other representatives of ${respondingName} is to be divulged. Possession, custody, or control of an item means that the person either has physical possession of the item or has a right to possession of the item that is equal or superior to that of the person who has physical possession of the item.`
@@ -348,8 +364,8 @@ function buildInterrogatoriesDoc(
     )
   )
 
-  // Option to Produce Records
-  children.push(sectionHeading('Option to Produce Records'))
+  // 7. OPTION TO PRODUCE RECORDS
+  children.push(heading('OPTION TO PRODUCE RECORDS'))
   children.push(
     para(
       `If the answer to an interrogatory may be derived or ascertained from public records, from your business records, or from a compilation, abstract, or summary of your business records, and the burden of deriving or ascertaining the answer is substantially the same for ${requestingLabel} as for you, you may answer the interrogatory by specifying and, if applicable, producing the records or compilation, abstract, or summary of the records. The records from which the answer may be derived or ascertained must be specified in sufficient detail to permit ${requestingLabel} to locate and identify them as readily as you can. If you have specified business records, you must state a reasonable time and place for examination of the documents. If you have produced any such records in response to a request for production and inspection or as a required disclosure pursuant to rule 194, please refer by Bates number to the document that would be responsive to the interrogatory. You must produce the documents at the time and place stated, unless otherwise agreed by the parties or ordered by the court, and must provide ${requestingLabel} a reasonable opportunity to inspect them.`,
@@ -357,8 +373,15 @@ function buildInterrogatoriesDoc(
     )
   )
 
-  // Over-limit notice
+  // 8. Signature block
+  children.push(...buildSignatureBlock(session))
+
+  // 9. Certificate of service
+  children.push(...buildCertificate(session))
+
+  // Over-limit notice (before numbered questions)
   if (doc.over_limit) {
+    children.push(blank())
     children.push(
       para(
         `NOTE: This document contains more than 25 interrogatories. Under Level 2 discovery, the limit is 25 interrogatories including all discrete subparts. Review and remove questions as needed before serving.`,
@@ -367,12 +390,8 @@ function buildInterrogatoriesDoc(
     )
   }
 
-  // Requests
+  // 10. Numbered interrogatories
   children.push(...buildRequestsSection(doc, 'INTERROGATORIES'))
-
-  // Signature block + certificate
-  children.push(...buildSignatureBlock(session))
-  children.push(...buildCertificate(doc, session))
 
   return children
 }
@@ -396,18 +415,20 @@ function buildRFPDoc(
   children.push(...buildCaption(session))
 
   // Title
+  const rawTitle = doc.title ?? `${requestingLabel.toUpperCase()}'S REQUEST FOR PRODUCTION AND INSPECTION TO ${respondingLabel.toUpperCase()}`
   children.push(
-    para(
-      doc.title ??
-        `${requestingLabel.toUpperCase()}'S REQUEST FOR PRODUCTION AND INSPECTION TO ${respondingLabel.toUpperCase()}`,
-      { bold: true, center: true, spaceBefore: 120, spaceAfter: 120 }
-    )
+    para(rawTitle.toUpperCase(), {
+      bold: true,
+      center: true,
+      spaceBefore: 120,
+      spaceAfter: 120,
+    })
   )
 
   // To line
   children.push(buildToLine(respondingName, pronoun, session.opposingCounsel))
 
-  // Cover (exact from Texas State Bar template)
+  // Cover
   children.push(
     para(
       `${requestingName}, ${requestingLabel}, requests that ${respondingName}, ${respondingLabel}, produce for inspection and copying the items described below, at the time and place set out below.`,
@@ -416,7 +437,7 @@ function buildRFPDoc(
   )
 
   // Definitions
-  children.push(sectionHeading('Definitions'))
+  children.push(heading('DEFINITIONS'))
   children.push(
     para(
       `"${respondingName}," "you," and "your" refer to and are intended to include ${respondingName}, your employees, and your agents, either individually or as a representative of any corporation, association, or partnership, as the case may be, as well as any testifying expert witnesses retained by you or retained on your behalf relating to this litigation and any consulting experts whose work product has been reviewed by, relates to, or forms the basis, either in whole or in part, of the mental impressions and opinions of any testifying experts.`
@@ -445,7 +466,7 @@ function buildRFPDoc(
   children.push(para('"Parties" means Petitioner or Respondent or both Petitioner and Respondent.'))
 
   // Instructions
-  children.push(sectionHeading('Instructions'))
+  children.push(heading('INSTRUCTIONS'))
   children.push(
     para(
       'All information responsive to this request that is not privileged and that is in your possession, custody, or control is to be produced.'
@@ -463,7 +484,7 @@ function buildRFPDoc(
   )
 
   // Time Period
-  children.push(sectionHeading('Time Period'))
+  children.push(heading('TIME PERIOD'))
   children.push(
     para(
       'The discovery requested is for documents prepared, received, or generated since ______ unless otherwise provided in this request. All requested documents, whenever actually prepared or generated, that relate to this period are to be produced.'
@@ -471,7 +492,7 @@ function buildRFPDoc(
   )
 
   // Documents to Be Produced
-  children.push(sectionHeading('Documents to Be Produced'))
+  children.push(heading('DOCUMENTS TO BE PRODUCED'))
   children.push(
     para(
       `All items set forth in Exhibit A are to be produced electronically or made available for inspection, examination, and copying within ${deadline} days following service of this request at ______. You must either produce documents and tangible things as they are kept in the ordinary course of business or organize and label them to correspond with the categories in this request. If you have produced any of the items set forth in Exhibit A in response to another request for production and inspection or as a disclosure pursuant to rule 194a, please refer by Bates number to each document that would be responsive to each such request in Exhibit A.`
@@ -479,7 +500,7 @@ function buildRFPDoc(
   )
 
   // Amendment or Supplementation
-  children.push(sectionHeading('Amendment or Supplementation of Response'))
+  children.push(heading('AMENDMENT OR SUPPLEMENTATION OF RESPONSE'))
   children.push(
     para(
       'If you learn that your response to this request was incomplete or incorrect when made or that, although it was complete and correct when made, it is no longer complete and correct, you must amend or supplement the response —'
@@ -503,7 +524,7 @@ function buildRFPDoc(
   )
 
   // Content of Response
-  children.push(sectionHeading('Content of Response'))
+  children.push(heading('CONTENT OF RESPONSE'))
   children.push(
     para(
       `With respect to each item or category of items, you must state objections and assert privileges as required by the Texas Rules of Civil Procedure and state, as appropriate, that —`
@@ -537,7 +558,7 @@ function buildRFPDoc(
 
   // Signature block + certificate
   children.push(...buildSignatureBlock(session))
-  children.push(...buildCertificate(doc, session))
+  children.push(...buildCertificate(session))
 
   return children
 }
@@ -561,18 +582,20 @@ function buildRFADoc(
   children.push(...buildCaption(session))
 
   // Title
+  const rawTitle = doc.title ?? `${requestingLabel.toUpperCase()}'S REQUESTS FOR ADMISSIONS TO ${respondingLabel.toUpperCase()}`
   children.push(
-    para(
-      doc.title ??
-        `${requestingLabel.toUpperCase()}'S REQUESTS FOR ADMISSIONS TO ${respondingLabel.toUpperCase()}`,
-      { bold: true, center: true, spaceBefore: 120, spaceAfter: 120 }
-    )
+    para(rawTitle.toUpperCase(), {
+      bold: true,
+      center: true,
+      spaceBefore: 120,
+      spaceAfter: 120,
+    })
   )
 
   // To line
   children.push(buildToLine(respondingName, pronoun, session.opposingCounsel))
 
-  // Cover (exact from Texas State Bar template)
+  // Cover
   children.push(
     para(
       `${requestingLabel}, ${requestingName} requests ${respondingName}, ${respondingLabel}, to admit the truth of the matters, including statements of opinion or of the application of law to fact or the genuineness of any documents served with this request, as set forth in the attachment. These requests for admissions are made under Rule 198.1 of the Texas Rules of Civil Procedure, and each of the matters of which an admission is requested shall be deemed admitted unless a response is delivered to ______ within ${deadline} days after service of this request. Unless ${respondingName} states an objection or asserts a privilege, ${respondingName} must specifically admit or deny each request or explain in detail the reasons that ${respondingName} cannot admit or deny the request. A response must fairly meet the substance of the request. ${respondingName} may qualify an answer, or deny a request in part, only when good faith requires. Lack of information or knowledge is not a proper response unless ${respondingName} states that a reasonable inquiry was made but that the information known or easily obtainable is insufficient to enable ${respondingName} to admit or deny. An assertion that the request presents an issue for trial is not a proper response.`,
@@ -585,7 +608,7 @@ function buildRFADoc(
 
   // Signature block + certificate
   children.push(...buildSignatureBlock(session))
-  children.push(...buildCertificate(doc, session))
+  children.push(...buildCertificate(session))
 
   return children
 }
@@ -616,7 +639,7 @@ function buildDisclosureDoc(session: SessionState): Array<Paragraph | Table> {
   // To line
   children.push(buildToLine(respondingName, pronoun, session.opposingCounsel))
 
-  // Cover (exact from Texas State Bar template)
+  // Cover
   children.push(
     para(
       `Pursuant to rule 194a of the Texas Rules of Civil Procedure and subchapter B, chapter 301, Family Code, you are requested to disclose the information or material described below within ${deadline} days after service of this request. The originals or copies of documents and other tangible items requested must be produced for inspection and copying at ______ within ${deadline} days after service of this request, together with a written response. Each written response must be preceded by the request to which it applies. No objection or assertion of work product privilege is permitted to this request. If you fail to comply with this request, the court may order sanctions against you in accordance with the Texas Rules of Civil Procedure. Your response must be signed.`,
@@ -625,7 +648,7 @@ function buildDisclosureDoc(session: SessionState): Array<Paragraph | Table> {
   )
 
   // Requests for Disclosure heading
-  children.push(sectionHeading('REQUESTS FOR DISCLOSURE'))
+  children.push(heading('REQUESTS FOR DISCLOSURE'))
   children.push(blank())
 
   // All 11 items — exact from Texas State Bar template
@@ -646,16 +669,17 @@ function buildDisclosureDoc(session: SessionState): Array<Paragraph | Table> {
   items.forEach((text, i) => {
     children.push(
       new Paragraph({
+        alignment: AlignmentType.BOTH,
         indent: { left: 360, hanging: 360 },
         spacing: { before: 60, after: 120 },
         children: [
-          new TextRun({ text: `${i + 1}.\t${text}`, size: 24, font: 'Times New Roman' }),
+          new TextRun({ text: `${i + 1}.\t${text}`, size: 24, font: 'Times New Roman', color: '000000' }),
         ],
       })
     )
   })
 
-  // Signature block + certificate
+  // Signature block
   children.push(...buildSignatureBlock(session))
 
   // Certificate
@@ -665,8 +689,8 @@ function buildDisclosureDoc(session: SessionState): Array<Paragraph | Table> {
   children.push(blank())
   children.push(para(certText))
   children.push(blank())
-  children.push(para(`/s/ ${session.attorneyName}`))
-  children.push(para(session.attorneyName))
+  children.push(para(`/s/ ${session.attorneyName}`, { left: true }))
+  children.push(para(session.attorneyName, { left: true }))
 
   return children
 }

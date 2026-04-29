@@ -13,5 +13,7 @@ Modification type: ${input.modificationType ?? 'N/A'}
 Discovery level: ${input.discoveryLevel}
 Request types: ${input.requestTypes.join(', ')}
 Response deadline: ${input.responseDeadline}
-Case notes: ${input.caseNotes}`
+Case notes: ${input.caseNotes}
+
+Be concise. Generate no more than 15 targeted interrogatories unless the case facts clearly require more. Do not pad with generic requests. Quality over quantity.`
 }

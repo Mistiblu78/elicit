@@ -112,7 +112,7 @@ export default function OutputPage() {
             >
               ← Back to edit
             </button>
-            <h1 className="text-xl font-semibold text-navy">Your Discovery Documents</h1>
+            <h1 className="text-xl font-semibold text-black">Your Discovery Documents</h1>
             <button
               onClick={handleNewSession}
               className="text-sm text-gray-muted hover:text-navy transition-colors"
@@ -138,7 +138,7 @@ export default function OutputPage() {
             >
               ← Back to edit
             </button>
-            <h1 className="text-xl font-semibold text-navy">Your Discovery Documents</h1>
+            <h1 className="text-xl font-semibold text-black">Your Discovery Documents</h1>
             <button
               onClick={handleNewSession}
               className="text-sm text-gray-muted hover:text-navy transition-colors"
@@ -197,7 +197,7 @@ export default function OutputPage() {
           >
             ← Back to edit
           </button>
-          <h1 className="text-xl font-semibold text-navy">Your Discovery Documents</h1>
+          <h1 className="text-xl font-semibold text-black">Your Discovery Documents</h1>
           <button
             onClick={handleNewSession}
             className="text-sm text-gray-muted hover:text-navy transition-colors"
@@ -207,12 +207,12 @@ export default function OutputPage() {
         </div>
 
         {/* Review checkbox */}
-        <div className="mb-4 bg-white rounded-lg border border-gray-200 px-5 py-4">
+        <div className="mb-4 bg-white rounded-lg border border-light-blue px-5 py-4">
           <ReviewCheckbox checked={reviewChecked} onChange={setReviewChecked} />
         </div>
 
         {/* Document tabs + viewer */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white rounded-lg shadow-sm border border-light-blue">
           <DocumentTabs
             documents={documents}
             activeIndex={activeIndex}
@@ -231,7 +231,7 @@ export default function OutputPage() {
         </div>
 
         {/* Download controls */}
-        <div className="mt-4 bg-white rounded-lg border border-gray-200 px-5 py-4">
+        <div className="mt-4 bg-white rounded-lg border border-light-blue px-5 py-4">
           <DownloadControls
             activeDoc={activeDoc}
             allDocs={documents}

@@ -38,6 +38,7 @@ export interface SessionState {
   opposingCounsel: string
   causeNumber: string
   court: string
+  judicialDistrict: string
   county: string
   requestingParty: 'Petitioner' | 'Respondent'
   opposingPronoun: 'his' | 'her' | 'their'
@@ -79,6 +80,7 @@ const defaultState: SessionState = {
   opposingCounsel: '',
   causeNumber: '',
   court: '',
+  judicialDistrict: '',
   county: '',
   requestingParty: 'Petitioner',
   opposingPronoun: 'his',
