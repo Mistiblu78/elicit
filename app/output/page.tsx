@@ -111,6 +111,7 @@ export default function OutputPage() {
         <div className="mt-4 bg-white rounded-lg border border-gray-200 px-5 py-4">
           <DownloadControls
             activeDoc={activeDoc}
+            allDocs={documents}
             session={session}
             reviewChecked={reviewChecked}
           />
