@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from '@/context/SessionContext'
 import { replaceInDocument } from '@/lib/replacePlaceholders'
@@ -9,24 +9,87 @@ import DocumentViewer from '@/components/output/DocumentViewer'
 import ReviewCheckbox from '@/components/output/ReviewCheckbox'
 import DownloadControls from '@/components/output/DownloadControls'
 import InterrogatoriesBadge from '@/components/output/InterrogatoriesBadge'
+import LoadingSkeleton from '@/components/shared/LoadingSkeleton'
+import ErrorState from '@/components/shared/ErrorState'
 
 export default function OutputPage() {
-  const { session, clearSession } = useSession()
+  const { session, updateSession, clearSession } = useSession()
   const router = useRouter()
   const [activeIndex, setActiveIndex] = useState(0)
   const [reviewChecked, setReviewChecked] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [consecutiveErrors, setConsecutiveErrors] = useState(0)
+  const calledRef = useRef(false)
 
+  const makeApiCall = useCallback(async () => {
+    try {
+      const payload = {
+        caseType: session.caseType,
+        modificationType: session.modificationType,
+        discoveryLevel: session.discoveryLevel,
+        requestTypes: session.requestTypes,
+        responseDeadline: session.responseDeadline,
+        caseNotes: session.caseNotes,
+        apiCallCount: session.apiCallCount,
+      }
+
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      if (res.status === 429) {
+        setConsecutiveErrors(prev => prev + 1)
+        updateSession({ isLoading: false, error: 'rate_limit' })
+        return
+      }
+
+      const data = await res.json()
+
+      if (data.error === 'session_limit') {
+        updateSession({ isLoading: false, error: 'session_limit' })
+        return
+      }
+
+      if (data.error === 'api_error' || !res.ok) {
+        setConsecutiveErrors(prev => prev + 1)
+        updateSession({ isLoading: false, error: 'api_error' })
+        return
+      }
+
+      setConsecutiveErrors(0)
+      updateSession({
+        documents: data,
+        apiCallCount: session.apiCallCount + 1,
+        isLoading: false,
+        error: null,
+      })
+    } catch {
+      setConsecutiveErrors(prev => prev + 1)
+      updateSession({ isLoading: false, error: 'api_error' })
+    }
+  }, [session, updateSession])
+
+  // Trigger API call when isLoading=true and no documents (initial load or retry)
   useEffect(() => {
-    if (!session.documents) {
+    if (session.isLoading && !session.documents && !calledRef.current) {
+      calledRef.current = true
+      makeApiCall()
+    }
+  }, [session.isLoading, session.documents, makeApiCall])
+
+  // Redirect to input if there's nothing to show
+  useEffect(() => {
+    if (!session.isLoading && !session.documents && !session.error) {
       router.replace('/input')
     }
-  }, [session.documents, router])
+  }, [session.isLoading, session.documents, session.error, router])
 
-  if (!session.documents) return null
-
-  const documents = session.documents.map(doc => replaceInDocument(doc, session))
-  const activeDoc = documents[activeIndex]
+  function handleRetry() {
+    calledRef.current = false
+    updateSession({ isLoading: true, error: null, documents: null })
+  }
 
   function handleNewSession() {
     setShowConfirm(true)
@@ -36,6 +99,67 @@ export default function OutputPage() {
     clearSession()
     router.push('/')
   }
+
+  // Loading state
+  if (session.isLoading) {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4 py-8">
+          <div className="mb-6 flex items-center justify-between">
+            <button
+              onClick={() => { updateSession({ isLoading: false }); router.push('/input') }}
+              className="text-sm text-navy hover:underline font-medium"
+            >
+              ← Back to edit
+            </button>
+            <h1 className="text-xl font-semibold text-navy">Your Discovery Documents</h1>
+            <button
+              onClick={handleNewSession}
+              className="text-sm text-gray-muted hover:text-navy transition-colors"
+            >
+              Start new session
+            </button>
+          </div>
+          <LoadingSkeleton requestTypes={session.requestTypes} />
+        </div>
+      </main>
+    )
+  }
+
+  // Error state
+  if (session.error) {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4 py-8">
+          <div className="mb-6 flex items-center justify-between">
+            <button
+              onClick={() => router.push('/input')}
+              className="text-sm text-navy hover:underline font-medium"
+            >
+              ← Back to edit
+            </button>
+            <h1 className="text-xl font-semibold text-navy">Your Discovery Documents</h1>
+            <button
+              onClick={handleNewSession}
+              className="text-sm text-gray-muted hover:text-navy transition-colors"
+            >
+              Start new session
+            </button>
+          </div>
+          <ErrorState
+            error={session.error}
+            consecutiveErrors={consecutiveErrors}
+            onRetry={handleRetry}
+          />
+        </div>
+      </main>
+    )
+  }
+
+  if (!session.documents) return null
+
+  const documents = session.documents.map(doc => replaceInDocument(doc, session))
+  const activeDoc = documents[activeIndex]
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -94,7 +218,6 @@ export default function OutputPage() {
             activeIndex={activeIndex}
             onTabChange={idx => { setActiveIndex(idx); setReviewChecked(false) }}
           >
-            {/* Badge for interrogatories */}
             {activeDoc?.type === 'interrogatories' && (
               <div className="mb-3">
                 <InterrogatoriesBadge doc={activeDoc} />

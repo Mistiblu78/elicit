@@ -41,59 +41,14 @@ export default function GenerateButton({ onValidationFail }: GenerateButtonProps
     return true
   }
 
-  async function handleGenerate() {
+  function handleGenerate() {
     if (!validate()) {
       onValidationFail()
       return
     }
-
-    updateSession({ isLoading: true, error: null })
-
-    try {
-      const payload = {
-        caseType: session.caseType,
-        modificationType: session.modificationType,
-        discoveryLevel: session.discoveryLevel,
-        requestTypes: session.requestTypes,
-        responseDeadline: session.responseDeadline,
-        caseNotes: session.caseNotes,
-        apiCallCount: session.apiCallCount,
-      }
-
-      const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-
-      if (res.status === 429) {
-        updateSession({ isLoading: false, error: 'rate_limit' })
-        return
-      }
-
-      const data = await res.json()
-
-      if (data.error === 'session_limit') {
-        updateSession({ isLoading: false, error: 'session_limit' })
-        return
-      }
-
-      if (data.error === 'api_error' || !res.ok) {
-        updateSession({ isLoading: false, error: 'api_error' })
-        return
-      }
-
-      updateSession({
-        documents: data,
-        apiCallCount: session.apiCallCount + 1,
-        isLoading: false,
-        error: null,
-      })
-
-      router.push('/output')
-    } catch {
-      updateSession({ isLoading: false, error: 'api_error' })
-    }
+    // Set loading state and navigate to output — the output page makes the API call
+    updateSession({ isLoading: true, error: null, documents: null })
+    router.push('/output')
   }
 
   return (
