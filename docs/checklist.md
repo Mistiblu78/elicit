@@ -26,7 +26,7 @@
   Acceptance: `context/SessionContext.tsx` exports `SessionProvider` and `useSession`. `app/layout.tsx` wraps children in `SessionProvider`. The full `SessionState` and `GeneratedDocument` interfaces are defined with correct TypeScript types matching the spec exactly.
   Verify: Run `bun run dev`. Confirm no TypeScript errors on the context file or layout.
 
-- [ ] **3. Page 1 — Landing**
+- [x] **3. Page 1 — Landing**
   Spec ref: `spec.md > Page 1 — Landing > ComplianceNotice Component`
   What to build: Build `components/landing/ComplianceNotice.tsx` — three-point compliance notice: (1) the two-field approach — identifying info vs. placeholder-only case notes; (2) attorney review requirement before serving; (3) session-only data handling — no storage, no logs. Style with Tailwind using brand tokens. Notice must be visible above the fold without scrolling. Add a single "Get Started" CTA button that navigates to `/input`. Wire up `app/page.tsx` to render `ComplianceNotice`. No case information collected on this page.
   Acceptance: Landing page renders three-point compliance notice above the fold. "Get Started" button is the only CTA and navigates to `/input`. No form fields or case information on this page. Styling uses Elicit navy and brand colors.
