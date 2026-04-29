@@ -70,6 +70,7 @@ export interface SessionState {
 interface SessionContextType {
   session: SessionState
   updateSession: (updates: Partial<SessionState>) => void
+  clearSession: () => void
 }
 
 const defaultState: SessionState = {
@@ -110,8 +111,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setSession(prev => ({ ...prev, ...updates }))
   }
 
+  function clearSession() {
+    setSession(defaultState)
+  }
+
   return (
-    <SessionContext.Provider value={{ session, updateSession }}>
+    <SessionContext.Provider value={{ session, updateSession, clearSession }}>
       {children}
     </SessionContext.Provider>
   )
