@@ -20,7 +20,7 @@
   Acceptance: Dev server runs on localhost without build errors. All directories and stub files exist per spec. Tailwind brand color tokens are configured and available. `wrangler.toml` and `next.config.ts` reference `@opennextjs/cloudflare`.
   Verify: Run `bun run dev` and confirm localhost loads without errors. Check `tailwind.config.ts` for brand tokens.
 
-- [ ] **2. SessionContext**
+- [x] **2. SessionContext**
   Spec ref: `spec.md > Session State`
   What to build: Create `context/SessionContext.tsx` with the full `SessionState` interface and `GeneratedDocument` interface exactly as defined in the spec. Set sensible defaults for all fields (empty strings, nulls, empty arrays, `apiCallCount: 0`, `isLoading: false`, `error: null`). Export a `SessionProvider` component and a `useSession` hook. Wrap the entire app in `app/layout.tsx` with `<SessionProvider>`. No UI — this is the state layer only.
   Acceptance: `context/SessionContext.tsx` exports `SessionProvider` and `useSession`. `app/layout.tsx` wraps children in `SessionProvider`. The full `SessionState` and `GeneratedDocument` interfaces are defined with correct TypeScript types matching the spec exactly.
