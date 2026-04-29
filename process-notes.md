@@ -34,6 +34,34 @@ One round, four questions. Surfaced: soft warning trigger logic (resolved cleanl
 **Active shaping:**
 Lisha drove every key decision. The Modification case type expansion (adding sub-selection) came entirely from her. The tab layout rationale ("each document is a separate legal instrument — attorneys think of them that way") was her framing. The session model ("temporary by design") was articulated precisely. She named the design principle behind error handling ("never drop the attorney back to Page 2 automatically") and behind the structured input object ("form-to-prompt mapping, not inference"). No passive acceptance of suggestions — every decision has a reason.
 
+## /checklist
+
+**Sequencing decisions:**
+Lisha drove the opening sequencing call immediately — "file structure first, then SessionContext." Correct instinct for the right reason: nothing else can exist without the scaffold, and SessionContext is the state foundation every page depends on. No prompting needed.
+
+**Build mode:** Autonomous. Chosen without hesitation. Lisha is comfortable reviewing code rather than co-building it step by step.
+
+**Verification approach:** Lisha named a specific, smart checkpoint before it was offered to her — pause after the API route is working and show the raw JSON response before building any output UI. Her reasoning: if the JSON schema doesn't match what `buildDocx.ts` expects, she wants to catch it at the API layer, not after the entire UI is built around it. This is the highest-risk integration point in the app. One named checkpoint encoded in the checklist header; no other verification checkpoints.
+
+**Git cadence:** Commit after each item. Agreed immediately.
+
+**Devpost submission:**
+- Core story provided verbatim and submission-ready — three sentences that hit problem, differentiator, and workflow cleanly. "Not filled-in templates, but requests written for that case" is the standout line.
+- Hero screenshot: Page 3 with fully loaded document, tabs showing multiple request types, download controls visible. Correct instinct — shows what Elicit actually does in one frame.
+- GitHub repo: https://github.com/Mistiblu78/elicit (created manually during this session; gh CLI not in bash PATH on her machine).
+
+**Checklist summary:** 10 items, estimated 3.5–4 hours in autonomous mode. Items 1–5 build the full data pipeline; item 5 ends with the JSON checkpoint; items 6–9 build the UI on top of that validated foundation; item 10 is Devpost submission.
+
+**Deepening rounds:** Zero. Lisha confirmed the plan was correct and moved directly to checklist generation.
+
+**Active shaping:** Lisha drove sequencing, checkpoint design, and Devpost content entirely. The raw JSON checkpoint was her idea, not offered by the agent — a genuine architectural insight that protects the buildDocx contract. She also initiated the GitHub repo setup and `.env.local` creation during the checklist session, showing she was already thinking ahead to the build.
+
+**Pre-build tasks folded into checklist:**
+- System prompt updates (modificationType instructions + JSON output format) → item 5
+- Pre-filled case notes example text → item 4
+- System prompt loading mechanism for Cloudflare Workers → item 5
+- `.env.local` created with API key placeholder during checklist session ✓
+
 ## /onboard
 
 **Technical experience:** Beginner-to-intermediate. Built a full company website with Kiro.dev. No traditional coding background but picks up technical concepts easily. Has Bun/Railway stack preference, GitHub/Stripe/Cloudflare accounts ready.
