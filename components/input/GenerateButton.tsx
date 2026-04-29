@@ -31,33 +31,69 @@ export default function GenerateButton({ onValidationFail }: GenerateButtonProps
   const router = useRouter()
 
   function validate(): boolean {
-    // 1. All 16 identifying info fields must be non-empty
     for (const field of IDENTIFYING_FIELDS) {
       const value = session[field]
       if (typeof value === 'string' && value.trim() === '') return false
     }
-
-    // 2. At least one request type selected
     if (session.requestTypes.length === 0) return false
-
-    // 3. If caseType === 'Modification', modificationType must not be null
     if (session.caseType === 'Modification' && session.modificationType === null) return false
-
-    // 4. caseNotes.length <= 2000
-    const notes = session.caseNotes
-    if (notes.length > 2000) return false
-
+    if (session.caseNotes.length > 2000) return false
     return true
   }
 
-  function handleGenerate() {
+  async function handleGenerate() {
     if (!validate()) {
       onValidationFail()
       return
     }
 
-    updateSession({ isLoading: true })
-    router.push('/output')
+    updateSession({ isLoading: true, error: null })
+
+    try {
+      const payload = {
+        caseType: session.caseType,
+        modificationType: session.modificationType,
+        discoveryLevel: session.discoveryLevel,
+        requestTypes: session.requestTypes,
+        responseDeadline: session.responseDeadline,
+        caseNotes: session.caseNotes,
+        apiCallCount: session.apiCallCount,
+      }
+
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      if (res.status === 429) {
+        updateSession({ isLoading: false, error: 'rate_limit' })
+        return
+      }
+
+      const data = await res.json()
+
+      if (data.error === 'session_limit') {
+        updateSession({ isLoading: false, error: 'session_limit' })
+        return
+      }
+
+      if (data.error === 'api_error' || !res.ok) {
+        updateSession({ isLoading: false, error: 'api_error' })
+        return
+      }
+
+      updateSession({
+        documents: data,
+        apiCallCount: session.apiCallCount + 1,
+        isLoading: false,
+        error: null,
+      })
+
+      router.push('/output')
+    } catch {
+      updateSession({ isLoading: false, error: 'api_error' })
+    }
   }
 
   return (

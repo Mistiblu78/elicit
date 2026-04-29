@@ -31,7 +31,7 @@ export interface GeneratedDocument {
   over_limit?: boolean
 }
 
-interface SessionState {
+export interface SessionState {
   // Identifying info — PII, never sent to API
   petitioner: string
   respondent: string
